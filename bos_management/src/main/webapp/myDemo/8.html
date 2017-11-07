@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>消息框的使用</title>
+		<script type="text/javascript" src="../js/jquery-1.8.3.js"></script>
+		<script type="text/javascript" src="../js/easyui/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="../js/easyui/locale/easyui-lang-zh_CN.js"></script>
+		<link rel="stylesheet" href="../js/easyui/themes/default/easyui.css" />
+		<link rel="stylesheet" href="../js/easyui/themes/icon.css" />
+		
+		<script type="text/javascript">
+			$(function(){
+				//警告窗口
+				//$.messager.alert("错误","这里不卖肉夹馍","warning");
+				
+				//确认窗口
+				/*$.messager.confirm("删除提示","确认删除吗？",function(result){
+					if(result){
+						alert("执行删除。");
+					}else{
+						alert("取消删除");
+					}
+				});*/
+				
+				//输入窗口
+				/*$.messager.prompt("你的名字","你叫什么名字",function(val){
+					alert("hello,"+val);
+				});*/
+				
+				
+				//右下角窗口
+				/*$.messager.show({
+					title:"标题",
+					msg:"减价大促销，<a href='https://www.baidu.com'>点我点我</a>",
+					timeout:5000
+				});*/
+				
+				//进度条
+				$.messager.progress({
+					interval:1000
+				});
+				//定时器，5秒后自动关闭进度条
+				window.setTimeout("$.messager.progress('close'):",5000);
+			});
+		</script>
+	</head>
+	<body >
+		
+	</body>
+	
+</html>
