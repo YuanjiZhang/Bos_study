@@ -13,7 +13,11 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-
+	
+	
+	
+	
+	
 	<!-- structs2 过滤器-->
 	<filter>
 		<filter-name>struts2</filter-name>

@@ -30,7 +30,9 @@
 					pageList: [30,50,100],
 					pagination : true,
 					toolbar : toolbar,
-					url : "../../data/standard.json",
+					
+					//请求json数据的路径
+					url : "../../base/standard_action/findAll",
 					idField : 'id',
 					columns : columns
 				});
@@ -39,6 +41,7 @@
 				$("#save").click(function(){
 					if($("#standardWindow").form('validate')){
 						$("#stanform").submit();
+						
 					}else{
 						$.messager.alert('警告','请确认表单信息是否填写完整','warning'); 
 					}
@@ -51,14 +54,25 @@
 				text : '增加',
 				iconCls : 'icon-add',
 				handler : function(){
+					$("#stanform").form('clear');
 					$('#standardWindow').window('open');
+					
+					
 				}
 			}, {
 				id : 'button-edit',
 				text : '修改',
 				iconCls : 'icon-edit',
 				handler : function(){
-					alert('修改');
+					var rows = $("#grid").datagrid('getSelections');
+					if(rows.length != 1){
+						//没选或多选
+						$.messager.alert('警告','请选择一条数据进行修改','warning'); 
+					}else{
+						var row=rows[0];
+						$("#stanform").form('load',row);
+						$("#standardWindow").window('open');
+					}
 				}
 			},{
 				id : 'button-delete',

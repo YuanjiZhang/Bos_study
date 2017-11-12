@@ -13,6 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.apache.struts2.json.annotations.JSON;
+
 /**
  * @description:快递员
  */
@@ -136,6 +138,8 @@ public class Courier {
 		this.vehicleNum = vehicleNum;
 	}
 
+	//JSON注解排除不需要的属性 
+	@JSON(serialize=false)
 	public Set<FixedArea> getFixedAreas() {
 		return fixedAreas;
 	}

@@ -5,14 +5,15 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import cn.itcast.bos.domain.base.Courier;
 import cn.itcast.bos.domain.base.Standard;
 
-public interface StandardService {
+public interface CurierService {
 
-	void save(Standard standard);
+	
 
-	Page<Standard> findAll(Pageable pageable);
+	void save(Courier courier);
 
-	List<Standard> findAllStandards();
+	Page<Courier> findAll(Pageable pageable);
 
 }
