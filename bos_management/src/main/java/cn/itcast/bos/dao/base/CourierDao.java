@@ -17,7 +17,7 @@ public interface CourierDao extends JpaRepository<Courier, Integer>,JpaSpecifica
 	@Query("update Courier set deltag='1' where id =? ")
 	void update(int parseInt);
 
-	//还原快递员
+	//还原快递员de方法
 	@Modifying
 	@Query("update Courier set deltag='' where id = ?")
 	void update2(int parseInt);
