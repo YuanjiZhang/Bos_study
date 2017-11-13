@@ -13,6 +13,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -61,6 +62,24 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
 		this.rows = rows;
 	}
 
+	
+	//还原快递员
+	@Action(value="fix",results={@Result(name="success",location="/pages/base/courier.html",type="redirect")})
+	public String fix(){
+		String ids = ServletActionContext.getRequest().getParameter("ids");
+		courierService.fix(ids);
+		return SUCCESS;
+	}
+	
+	
+	//作废快递员
+	@Action(value="del",results={@Result(name="success",location="/pages/base/courier.html",type="redirect")})
+	public String del(){
+		String ids = ServletActionContext.getRequest().getParameter("ids");
+		courierService.del(ids);
+		return SUCCESS;
+	}
+	
 	
 	//无条件的分页查询所有快递员的信息
 	@Action(value="findAll",results={@Result(name="success",type="json")})

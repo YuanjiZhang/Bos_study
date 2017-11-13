@@ -34,12 +34,42 @@
 
 			}
 
+
+			//快递员的批量删除操作
 			function doDelete() {
-				alert("删除...");
+				var rows = $("#grid").datagrid('getSelections');
+				if(rows.length == 0){
+					//没有选中记录
+					$.messager.alert('警告','不选数据你删个毛啊！','warning');
+				}else{
+					//获得选中条目的id一参数传递 到后端
+					var array = new Array();
+					for(var i = 0 ; i<rows.length ; i++){
+						array.push(rows[i].id);
+					}
+					var ids = array.join(",");
+					
+					//将字符串发送到后端
+					window.location.href="../../base/courier_action/del?ids="+ids;
+				}
 			}
 
 			function doRestore() {
-				alert("将取派员还原...");
+				var rows = $("#grid").datagrid('getSelections');
+				if(rows.length == 0){
+					//没有选中记录
+					$.messager.alert('警告','什么都没选，你咋不上天呢！','warning');
+				}else{
+					//封装选中条目的id
+					var array = new Array();
+					for (var i = 0 ; i<rows.length ; i++) {
+						array.push(rows[i].id);
+					}
+					var ids = array.join(",");
+					
+					//将字符串发送回后端
+					window.location.href="../../base/courier_action/fix?ids="+ids;
+				}
 			}
 			//工具栏
 			var toolbar = [{
@@ -127,10 +157,10 @@
 					width: 80,
 					align: 'center',
 					formatter: function(data, row, index) {
-						if(data == "0") {
-							return "正常使用"
+						if(data == "1") {
+							return "已作废"
 						} else {
-							return "已作废";
+							return "正常使用";
 						}
 					}
 				}, {

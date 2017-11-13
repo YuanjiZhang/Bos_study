@@ -19,4 +19,8 @@ public interface CurierService {
 
 	Page<Courier> findAll(Specification<Courier> specification, Pageable pageable);
 
+	void del(String ids);
+
+	void fix(String ids);
+
 }

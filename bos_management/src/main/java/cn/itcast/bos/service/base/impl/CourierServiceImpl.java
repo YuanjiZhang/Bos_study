@@ -35,6 +35,27 @@ public class CourierServiceImpl implements CurierService {
 		return courierDao.findAll(specification,pageable);
 	}
 
+
+
+	//作废快递员
+	@Override
+	public void del(String ids) {
+		String[] id = ids.split(",");
+		for (int i = 0; i < id.length; i++) {
+			courierDao.update(Integer.parseInt(id[i]));
+		}
+	}
+
+
+	//还原快递员
+	@Override
+	public void fix(String ids) {
+		String[] id = ids.split(",");
+		for (String i : id) {
+			courierDao.update2(Integer.parseInt(i));
+		}
+	}
+
 	/*//分页查询所有快递员信息
 	@Override
 	public Page<Courier> findAll(Pageable pageable) {
