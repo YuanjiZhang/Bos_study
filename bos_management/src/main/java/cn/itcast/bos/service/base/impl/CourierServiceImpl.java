@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,10 +27,18 @@ public class CourierServiceImpl implements CurierService {
 		courierDao.save(courier);
 	}
 
-	//分页查询所有快递员信息
+
+	
+	//带条件的分页查询
+	@Override
+	public Page<Courier> findAll(Specification<Courier> specification, Pageable pageable) {
+		return courierDao.findAll(specification,pageable);
+	}
+
+	/*//分页查询所有快递员信息
 	@Override
 	public Page<Courier> findAll(Pageable pageable) {
 		return courierDao.findAll(pageable);
-	}
+	}*/
 
 }
