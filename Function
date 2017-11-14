@@ -1,0 +1,15 @@
+# 快递员的批量删除(还原)功能
+  * 前端
+      1. formatter修改显示
+        * 设置给datagrid的Columns
+      2. 在作废按钮的事件中
+        1. 通过getSelections获取所有被选中的行
+        2. 获取所有选中的行的Id，并将娃们存进Array中
+          * push将数据添加到数组的末尾
+        3. 将数组转化成字符串
+          * join 按照一定的分隔符将数组拼接成一个字符串
+        4. 将数据通过window.location.href的形式请求后端传入参数
+          * 也可以使用$.get()的形式 代替（待实现）
+  * 后端
+    1. 接收ids进行响应的update
+      * dao层“from Courier set detag='1' where id=?”
