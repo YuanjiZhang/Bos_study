@@ -43,6 +43,7 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
 	private Courier courier = new Courier();
 	@Override
 	public Courier getModel() {
+		
 		return courier;
 	}
 

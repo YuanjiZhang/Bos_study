@@ -22,6 +22,7 @@ import org.apache.struts2.json.annotations.JSON;
 @Table(name = "T_COURIER")
 public class Courier {
 
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	@Column(name = "C_ID")

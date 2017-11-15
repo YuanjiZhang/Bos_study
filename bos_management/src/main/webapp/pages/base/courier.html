@@ -31,7 +31,6 @@
 					$("#courierFrom").form('load', row);
 					$('#addWindow').window("open");
 				}
-
 			}
 
 
@@ -268,7 +267,7 @@
 				<form id="courierFrom" action="../../base/courier_action/save" method="post">
 					<table class="table-edit" width="80%" align="center">
 						<!-- 提供隐藏ID，便于查询信息 -->
-
+						<input type="hidden" name="id" />
 						<tr class="title">
 							<td colspan="4">收派员信息</td>
 						</tr>
