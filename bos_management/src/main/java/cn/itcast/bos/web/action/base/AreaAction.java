@@ -35,12 +35,13 @@ import com.opensymphony.xwork2.ModelDriven;
 import cn.itcast.bos.domain.base.Area;
 import cn.itcast.bos.service.base.AreaService;
 import cn.itcast.bos.utils.PinYin4jUtils;
+import cn.itcast.bos.web.action.common.BaseAction;
 
 @Controller
 @Scope("prototype")
 @Namespace("/")
 @ParentPackage("json-default")
-public class AreaAction extends ActionSupport implements ModelDriven<Area>{
+public class AreaAction extends BaseAction<Area>{
 
 	private Area area = new Area();
 	@Override
@@ -58,18 +59,7 @@ public class AreaAction extends ActionSupport implements ModelDriven<Area>{
 	}
 
 	
-	//接收页面传回参数
-	private int page ;
-	private int rows;
-
-	public void setPage(int page) {
-		this.page = page;
-	}
-
-	public void setRows(int rows) {
-		this.rows = rows;
-	}
-
+	
 	//分页查询数据
 	
 	@Action(value="area_findAll",results={@Result(name="success",type="json")})
@@ -106,11 +96,7 @@ public class AreaAction extends ActionSupport implements ModelDriven<Area>{
 		
 		Page<Area> pageDate = areaService.findAll(specification,pageable);
 		
-		Map<String,Object> map = new HashMap<>();
-		map.put("total", pageDate.getTotalElements());
-		map.put("rows", pageDate.getContent());
-		
-		ActionContext.getContext().getValueStack().push(map);
+		pushPageDateToValustack(pageDate);
 		
 		return SUCCESS;
 	}
