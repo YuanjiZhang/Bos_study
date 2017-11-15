@@ -3,7 +3,14 @@ package cn.itcast.bos.web.action.base;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -12,10 +19,16 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
@@ -44,6 +57,63 @@ public class AreaAction extends ActionSupport implements ModelDriven<Area>{
 		this.file = file;
 	}
 
+	
+	//接收页面传回参数
+	private int page ;
+	private int rows;
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
+
+	//分页查询数据
+	
+	@Action(value="area_findAll",results={@Result(name="success",type="json")})
+	public String findAll(){
+		Pageable pageable = new PageRequest(page-1, rows);
+		
+		Specification<Area> specification = new Specification<Area>() {
+
+			@Override
+			public Predicate toPredicate(Root<Area> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				List<Predicate> list = new ArrayList<>();
+				
+				//条件查询省份
+				if(StringUtils.isNotBlank(area.getProvince())){
+					Predicate p1 = cb.like(root.get("province").as(String.class),"%"+area.getProvince()+"%" );
+					list.add(p1);
+				}
+				
+				//条件查询城市
+				if(StringUtils.isNotBlank(area.getCity())){
+					Predicate p2 = cb.like(root.get("city").as(String.class),"%"+ area.getCity()+"%");
+					list.add(p2);
+				}
+				
+				//条件查询区县
+				if(StringUtils.isNotBlank(area.getDistrict())){
+					Predicate p3 = cb.like(root.get("district").as(String.class),"%"+area.getDistrict()+"%");
+					list.add(p3);
+				}
+				
+				return cb.and(list.toArray(new Predicate[0]));
+			}
+		};
+		
+		Page<Area> pageDate = areaService.findAll(specification,pageable);
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("total", pageDate.getTotalElements());
+		map.put("rows", pageDate.getContent());
+		
+		ActionContext.getContext().getValueStack().push(map);
+		
+		return SUCCESS;
+	}
 
 	//文件一键上传  批量区域数据导入
 	@Action(value="area_import")

@@ -29,45 +29,47 @@
 					//修改路径,数据回显
 					var row = rows[0];
 					$("#courierFrom").form('load', row);
+					
+					//回显combox；里面的数据
+					$('#cc').combobox('setValue',row.standard.name);
 					$('#addWindow').window("open");
 				}
 			}
 
-
 			//快递员的批量删除操作
 			function doDelete() {
 				var rows = $("#grid").datagrid('getSelections');
-				if(rows.length == 0){
+				if(rows.length == 0) {
 					//没有选中记录
-					$.messager.alert('警告','不选数据你删个毛啊！','warning');
-				}else{
+					$.messager.alert('警告', '不选数据你删个毛啊！', 'warning');
+				} else {
 					//获得选中条目的id一参数传递 到后端
 					var array = new Array();
-					for(var i = 0 ; i<rows.length ; i++){
+					for(var i = 0; i < rows.length; i++) {
 						array.push(rows[i].id);
 					}
 					var ids = array.join(",");
-					
+
 					//将字符串发送到后端
-					window.location.href="../../base/courier_action/del?ids="+ids;
+					window.location.href = "../../base/courier_action/del?ids=" + ids;
 				}
 			}
 
 			function doRestore() {
 				var rows = $("#grid").datagrid('getSelections');
-				if(rows.length == 0){
+				if(rows.length == 0) {
 					//没有选中记录
-					$.messager.alert('警告','什么都没选，你咋不上天呢！','warning');
-				}else{
+					$.messager.alert('警告', '什么都没选，你咋不上天呢！', 'warning');
+				} else {
 					//封装选中条目的id
 					var array = new Array();
-					for (var i = 0 ; i<rows.length ; i++) {
+					for(var i = 0; i < rows.length; i++) {
 						array.push(rows[i].id);
 					}
 					var ids = array.join(",");
-					
+
 					//将字符串发送回后端
-					window.location.href="../../base/courier_action/fix?ids="+ids;
+					window.location.href = "../../base/courier_action/fix?ids=" + ids;
 				}
 			}
 			//工具栏
@@ -200,10 +202,10 @@
 				//条件查询
 				$("#searchBtn").click(function() {
 					var parms = $("#searchForm").serializeJson();
-					
+
 					//将json对象绑定到datagrid上
 					$('#grid').datagrid('load', parms);
-					
+
 					//关闭窗口
 					$("#searchWindow").window('close');
 				});
@@ -235,6 +237,7 @@
 					resizable: false
 				});
 
+				
 				//添加取派员信息
 				$("#save").click(function() {
 					if($("#addWindow").form('validate')) {
@@ -308,8 +311,9 @@
 							</td>
 							<td>取派标准</td>
 							<td>
-								<input type="text" name="standard.id" class="easyui-combobox" data-options="required:true,valueField:'id',textField:'name',
+								<input type="text" name="standard.id" id="cc" class="easyui-combobox" data-options="required:true,valueField:'id',textField:'name',
 											url:'../../base/standard_action/findAllStandards'" />
+
 							</td>
 						</tr>
 						<tr>

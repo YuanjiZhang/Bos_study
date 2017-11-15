@@ -130,7 +130,7 @@
 					pageList: [30,50,100],
 					pagination : true,
 					toolbar : toolbar,
-					url : "../../data/area.json",
+					url : "../../area_findAll",
 					idField : 'id',
 					columns : columns,
 					onDblClickRow : doDblClickRow
@@ -174,7 +174,7 @@
 				//条件分页查询
 				$("#searchBtn").click(function(){
 					var params = $("#searchForm").serializeJson();
-					$('#dg').datagrid('load',params);
+					$('#grid').datagrid('load',params);
 					
 					//关闭窗口
 					$("”#searchWindow").window('close');
