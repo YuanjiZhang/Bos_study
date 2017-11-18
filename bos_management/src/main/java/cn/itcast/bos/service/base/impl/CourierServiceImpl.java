@@ -23,8 +23,8 @@ public class CourierServiceImpl implements CurierService {
 
 
 	@Override
-	public void save(Courier courier) {
-		courierDao.save(courier);
+	public void save(Courier model) {
+		courierDao.save(model);
 	}
 
 

@@ -14,4 +14,6 @@ public interface AreaService {
 
 	Page<Area> findAll(Specification<Area> specification, Pageable pageable);
 
+	void save(Area model);
+
 }

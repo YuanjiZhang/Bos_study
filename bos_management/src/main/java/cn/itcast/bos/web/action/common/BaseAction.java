@@ -50,10 +50,10 @@ public abstract class BaseAction<T> extends ActionSupport implements ModelDriven
 		this.rows = rows;
 	}
 	
-	public void pushPageDateToValustack(Page<T> pageDate){
+	public void pushPageDateToValustack(Page<T> pageData){
 		Map<String,Object> map = new HashMap<>();
-		map.put("total", pageDate.getTotalElements());
-		map.put("rows", pageDate.getContent());
+		map.put("total", pageData.getTotalElements());
+		map.put("rows", pageData.getContent());
 		
 		ActionContext.getContext().getValueStack().push(map);
 	}

@@ -13,7 +13,7 @@ public interface CurierService {
 
 	
 
-	void save(Courier courier);
+	void save(Courier model);
 
 	//Page<Courier> findAll(Pageable pageable);
 

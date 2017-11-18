@@ -23,7 +23,14 @@
 			}
 			
 			function doView(){
-				alert("修改...");
+				var rows = $("#grid").datagrid('getSelections');
+				if(rows.length !=1){
+					$.messager.alert('警告','请选中一条记录进行修改','warning')
+				}else{
+					var row = rows[0];
+					$("#areaForm").form('load',row);
+					$('#addWindow').window('open');
+				}
 			}
 			
 			function doDelete(){
@@ -147,6 +154,14 @@
 			        resizable:false
 			    });
 			    
+			    //添加区域
+				$("#save").click(function(){
+					if($("#addWindow").form('validate')){
+						$("#areaForm").submit();
+					}else{
+						$.messager.alert('警告','表中还存在非法数据！','warning');
+					}
+				});
 			    //一键上传
 				$("#button-import").upload({
 					action:'../../area_import',
@@ -201,8 +216,10 @@
 			</div>
 
 			<div region="center" style="overflow:auto;padding:5px;" border="false">
-				<form>
+				<form id="areaForm" action="../../area_save" method="post">
 					<table class="table-edit" width="80%" align="center">
+						<!--提供隐藏字段 便于查询信息 -->
+						<input type="hidden" name="id" />
 						<tr class="title">
 							<td colspan="2">区域信息</td>
 						</tr>

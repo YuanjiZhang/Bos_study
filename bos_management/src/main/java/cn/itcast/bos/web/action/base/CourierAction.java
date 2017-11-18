@@ -32,26 +32,27 @@ import com.opensymphony.xwork2.ModelDriven;
 
 import cn.itcast.bos.domain.base.Courier;
 import cn.itcast.bos.service.base.CurierService;
+import cn.itcast.bos.web.action.common.BaseAction;
 
 @Controller
 @Scope("prototype")
 @Namespace("/base/courier_action")
 @ParentPackage("json-default")
-public class CourierAction extends ActionSupport implements ModelDriven<Courier> {
-
+public class CourierAction extends BaseAction<Courier> {
+/*
 	//模型封装数据
 	private Courier courier = new Courier();
 	@Override
 	public Courier getModel() {
 		
 		return courier;
-	}
+	}*/
 
 	@Autowired
 	private CurierService courierService;
 	
 	
-	//接收页面传来数据
+	/*//接收页面传来数据
 	private int page;
 	private int rows;
 	
@@ -62,7 +63,7 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
 	public void setRows(int rows) {
 		this.rows = rows;
 	}
-
+*/
 	
 	//还原快递员
 	@Action(value="fix",results={@Result(name="success",location="/pages/base/courier.html",type="redirect")})
@@ -86,7 +87,6 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
 	@Action(value="findAll",results={@Result(name="success",type="json")})
 	public String findAll(){
 		Pageable pageable = new PageRequest(page-1, rows);
-		//Page<Courier> pageData =courierService.findAll(pageable);
 		
 		
 		//封装查询语句
@@ -99,27 +99,27 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
 				
 				
 				//判断工号是否相同   From Courier c  where c.courierNum=?
-				if(StringUtils.isNotBlank(courier.getCourierNum())){
-					Predicate p1 = cb.equal(root.get("courierNum").as(String.class),courier.getCourierNum() );
+				if(StringUtils.isNotBlank(model.getCourierNum())){
+					Predicate p1 = cb.equal(root.get("courierNum").as(String.class),model.getCourierNum() );
 					list.add(p1);
 				}
 				
 				//用模糊查询所属单位
-				if(StringUtils.isNotBlank(courier.getCompany())){
-					Predicate p2 = cb.like(root.get("company").as(String.class), "%"+courier.getCompany()+"%");
+				if(StringUtils.isNotBlank(model.getCompany())){
+					Predicate p2 = cb.like(root.get("company").as(String.class), "%"+model.getCompany()+"%");
 					list.add(p2);
 				}
 				
 				//查询类型是否相等
-				if(StringUtils.isNoneBlank(courier.getType())){
-					Predicate p3 = cb.equal(root.get("type").as(String.class), courier.getType());
+				if(StringUtils.isNoneBlank(model.getType())){
+					Predicate p3 = cb.equal(root.get("type").as(String.class), model.getType());
 					list.add(p3);
 				}
 				
 				//模糊查询收派标准
 				Join<Object, Object> standRoot = root.join("standard",JoinType.INNER);
-				if(courier.getStandard() != null && StringUtils.isNotBlank(courier.getStandard().getName())){
-					Predicate p4 = cb.like(standRoot.get("name").as(String.class), "%"+courier.getStandard().getName()+"%");
+				if(model.getStandard() != null && StringUtils.isNotBlank(model.getStandard().getName())){
+					Predicate p4 = cb.like(standRoot.get("name").as(String.class), "%"+model.getStandard().getName()+"%");
 					list.add(p4	);
 				}
 				
@@ -129,26 +129,23 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
 		
 		Page<Courier> pageData = courierService.findAll(specification,pageable);
 		
-		Map<String,Object> map = new HashMap<String,Object>();
+		/*Map<String,Object> map = new HashMap<String,Object>();
 		map.put("total", pageData.getTotalElements());
 		map.put("rows", pageData.getContent());
 		
 		//将map集合压入栈顶转化成json数据
-		ActionContext.getContext().getValueStack().push(map);
+		ActionContext.getContext().getValueStack().push(map);*/
+		pushPageDateToValustack(pageData);
 		
 		return SUCCESS;
 	}
-
-
 
 	//添加快递员信息
 	@Action(value="save",results={@Result(name="success",location="/pages/base/courier.html",type="redirect")})
 	public String save(){
-		courierService.save(courier);
+		courierService.save(model);
 		
 		return SUCCESS;
 	}
-	
-
 	
 }

@@ -28,5 +28,9 @@ public class AreaServiceImpl implements AreaService {
 	public Page<Area> findAll(Specification<Area> specification, Pageable pageable) {
 		return areaRepository.findAll(specification, pageable);
 	}
+	@Override
+	public void save(Area model) {
+		areaRepository.save(model);
+	}
 
 }

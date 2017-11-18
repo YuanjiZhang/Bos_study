@@ -30,8 +30,15 @@
 					var row = rows[0];
 					$("#courierFrom").form('load', row);
 					
-					//回显combox；里面的数据
-					$('#cc').combobox('setValue',row.standard.name);
+					var data = $('#cc').combobox('getData');
+					var standardIndex = 0;
+					for (var i = 0; i < data.length; i ++) {
+						if (data[i].id == row.standard.id) {
+							standardIndex = i;
+						}
+					}
+					$("#cc").combobox("select", standardIndex);
+					
 					$('#addWindow').window("open");
 				}
 			}
