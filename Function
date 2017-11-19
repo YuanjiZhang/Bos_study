@@ -13,3 +13,32 @@
   * 后端
     1. 接收ids进行响应的update
       * dao层“from Courier set detag='1' where id=?”
+
+
+# 定区关联客户思路
+ 1. 客户数据是有crm系统管理的，所以BOS要使用客户数据需要找CRM要，CRM要被BOS访问，就需要提供接口
+ 2. 浏览器之所以能够访问BOS系统，是因为编写了Struts的action ， Struts帮我们提供了可以访问的接口
+ 3. CRM也需要提供接口供BOS访问，服务间交互，SOAP，RESTFul，CXF
+# WebService(CXF)
+ 1. WS SOAP
+  * 独立发布（将其发布在Jetty上）
+  * 和spring集成，在Tomcat发布
+ 2. RS RESTFul
+  * 独立发布
+  * 和spring集成，在Tomcat发布
+  1. URL（资源定位）
+  2. HTTP动词
+   * POST（增）
+   * DELETE（删）
+   * PUT（改）
+   * GET（查）
+  3. 资源的表现形式
+   * JSON
+   * XML
+   * Accept（request,response中显示可以接收的数据类型）
+   * Content-Type（html携带信息数据的格式）
+  4. 参数
+   * 路径参数
+   * 查询参数
+   * 对象参数
+   * 表单参数
