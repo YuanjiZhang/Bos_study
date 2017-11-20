@@ -53,4 +53,10 @@ public class CustomerServiceImpl implements CustomerService {
 		
 	}
 
+	//增加客户信息
+	@Override
+	public void regist(Customer customer) {
+		customerRepository.save(customer);
+	}
+
 }

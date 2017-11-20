@@ -260,8 +260,7 @@
 					// 提交表单
 					$("#customerForm").submit();
 				});
-				
-				
+
 				// 为关联快递员按钮，添加click事件
 				$("#associationCourierBtn").click(function(){
 					// 判断表单是否通过校验
@@ -573,7 +572,7 @@
 								<!-- 存放定区编号 -->
 								<input type="hidden" name="id" id="courierFixedAreaId" />
 								<input type="text" name="courierId" class="easyui-combobox" required="true" 
-									data-options="url:'../../courier_findnoassociation.action',
+									data-options="url:'../../base/courier_action/courier_findnoassociation.action',
 										valueField:'id',textField:'info'"/>
 							</td>
 						</tr>

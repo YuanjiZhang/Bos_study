@@ -42,14 +42,34 @@ public class FixedAreaAction extends BaseAction<FixedArea>{
 
 	//属性驱动
 	private String[] customerIds;
-	
-
 
 	public void setCustomerIds(String[] customerIds) {
 		this.customerIds = customerIds;
 	}
+	
+	//又是属性驱动
+	private Integer courierId;
+	private Integer takeTimeId;
+	
 
-	//提交关联客户订单 使客户完成关联定区操作
+	public void setCourierId(Integer courierId) {
+		this.courierId = courierId;
+	}
+
+	public void setTakeTimeId(Integer takeTimeId) {
+		this.takeTimeId = takeTimeId;
+	}
+
+	//关联快递员到定区
+	@Action(value="fixedArea_associationCourierToFixedArea",results={@Result(
+			name="success",type="redirect",location="/pages/base/fixed_area.html")})
+	public String associationCourierToFixedArea(){
+		fixedAreaService.associationCourierToFixedArea(model,courierId,takeTimeId);
+		return SUCCESS;
+	}
+	
+	
+		//提交关联客户订单 使客户完成关联定区操作
 	// 关联客户到定区
 		@Action(value = "fixedArea_associationCustomersToFixedArea", results = { @Result(name = "success", type = "redirect", location = "./pages/base/fixed_area.html") })
 		public String associationCustomersToFixedArea() {

@@ -39,31 +39,20 @@ import cn.itcast.bos.web.action.common.BaseAction;
 @Namespace("/base/courier_action")
 @ParentPackage("json-default")
 public class CourierAction extends BaseAction<Courier> {
-/*
-	//模型封装数据
-	private Courier courier = new Courier();
-	@Override
-	public Courier getModel() {
-		
-		return courier;
-	}*/
 
 	@Autowired
 	private CurierService courierService;
 	
 	
-	/*//接收页面传来数据
-	private int page;
-	private int rows;
-	
-	public void setPage(int page) {
-		this.page = page;
+	//查询未关联定区快递员信息
+	@Action(value="courier_findnoassociation",results={@Result(name="success",type="json")})
+	public String findnoassociation(){
+		//调用业务层查询未关联快递员信息
+		List<Courier> couriers = courierService.findNoAssociation();
+		//将查询道德快递员列表压入栈顶
+		ActionContext.getContext().getValueStack().push(couriers);
+		return SUCCESS;
 	}
-
-	public void setRows(int rows) {
-		this.rows = rows;
-	}
-*/
 	
 	//还原快递员
 	@Action(value="fix",results={@Result(name="success",location="/pages/base/courier.html",type="redirect")})
@@ -129,12 +118,6 @@ public class CourierAction extends BaseAction<Courier> {
 		
 		Page<Courier> pageData = courierService.findAll(specification,pageable);
 		
-		/*Map<String,Object> map = new HashMap<String,Object>();
-		map.put("total", pageData.getTotalElements());
-		map.put("rows", pageData.getContent());
-		
-		//将map集合压入栈顶转化成json数据
-		ActionContext.getContext().getValueStack().push(map);*/
 		pushPageDateToValustack(pageData);
 		
 		return SUCCESS;

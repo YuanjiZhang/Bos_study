@@ -1,6 +1,12 @@
 package cn.itcast.bos.service.base.impl;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.itcast.bos.dao.base.CourierDao;
 import cn.itcast.bos.domain.base.Courier;
-import cn.itcast.bos.domain.base.Standard;
 import cn.itcast.bos.service.base.CurierService;
 
 @Service
@@ -56,10 +61,26 @@ public class CourierServiceImpl implements CurierService {
 		}
 	}
 
-	/*//分页查询所有快递员信息
+
+
+	//查询未关联定区的快递员
 	@Override
-	public Page<Courier> findAll(Pageable pageable) {
-		return courierDao.findAll(pageable);
-	}*/
+	public List<Courier> findNoAssociation() {
+		//封装条件判断定区id为空
+		Specification<Courier> spec = new Specification<Courier>() {
+
+			@Override
+			public Predicate toPredicate(Root<Courier> root, 
+					CriteriaQuery<?> query, CriteriaBuilder cb) {
+				//查询条件 判断列表size为空
+				Predicate p =  cb.isEmpty(root.get("fixedAreas").as(Set.class));
+				
+				return p;
+			}
+		};
+		
+		
+		return courierDao.findAll(spec);
+	}
 
 }

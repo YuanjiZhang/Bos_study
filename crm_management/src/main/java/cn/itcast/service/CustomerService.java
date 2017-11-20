@@ -2,7 +2,9 @@ package cn.itcast.service;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -33,5 +35,10 @@ public interface CustomerService {
 			@QueryParam("customerIdStr") String customerIdStr,
 			@QueryParam("fixedAreaId") String fixedAreaId);
 	
+	//实现保存客户信息
+	@POST
+	@Path("/customer")
+	@Consumes({"application/xml","application/json"})
+	public void regist(Customer customer);
 	
 }

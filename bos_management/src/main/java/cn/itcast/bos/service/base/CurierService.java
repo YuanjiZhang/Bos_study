@@ -23,4 +23,6 @@ public interface CurierService {
 
 	void fix(String ids);
 
+	List<Courier> findNoAssociation();
+
 }
