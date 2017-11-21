@@ -59,4 +59,23 @@ public class CustomerServiceImpl implements CustomerService {
 		customerRepository.save(customer);
 	}
 
+	@Override
+	public Customer findByTelephone(String telephone) {
+
+		//对查询到的用户个集合长度进行判断
+		try {
+			Customer customer= customerRepository.findByTelephone(telephone);
+			return  customer;
+		} catch (Exception e) {
+			throw new RuntimeException("该手机号已经被占用！");
+		}
+		
+		
+	}
+
+	@Override
+	public void updateType(String telephone) {
+		customerRepository.updateType(telephone);
+	}
+
 }

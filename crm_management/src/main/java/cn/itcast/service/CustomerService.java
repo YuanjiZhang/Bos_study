@@ -41,4 +41,16 @@ public interface CustomerService {
 	@Consumes({"application/xml","application/json"})
 	public void regist(Customer customer);
 	
+	
+	//通过手机号查询客户信息
+	@GET
+	@Path("customer/telephone/{telephone}")
+	@Consumes({"application/xml","application/json"})
+	public Customer findByTelephone(@PathParam("telephone") String telephone);
+	
+	//确认无误后更改用户状态
+	@PUT
+	@Path("/customer/updatetype/{telephone}")
+	public void updateType(@PathParam("telephone") String telephone);
+	
 }

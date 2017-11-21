@@ -121,27 +121,45 @@ public class CustomerAction extends BaseAction<Customer> {
 	public void setActivecode(String activecode) {
 		this.activecode = activecode;
 	}
-
-	/*@Action("customer_activeMail")
-	public String activeMail() throws IOException {
-		ServletActionContext.getResponse().setContentType(
-				"text/html;charset=utf-8");
-		// 判断激活码是否有效
-		String activecodeRedis = redisTemplate.opsForValue().get(
-				model.getTelephone());
-		if (activecodeRedis == null || !activecodeRedis.equals(activecodeRedis)) {
-			// 激活码无效
-			ServletActionContext.getResponse().getWriter()
-					.println("激活码无效，请登录系统，重新绑定邮箱！");
-		} else {
-			// 激活码有效
-			// 防止重复绑定
-			// 调用CRM webService 查询客户信息，判断是否已经绑定
+	
+	@Action("customer_activeMail")
+	public String activeMail() throws IOException{
+		//处理向浏览器输出的乱码问题
+		ServletActionContext.getResponse().setContentType("text/html;charset=utf-8");
+		
+		//判断激活码是否有效
+		String activecodeRedis = redisTemplate.opsForValue().get(model.getTelephone());
+		if(activecodeRedis == null || !activecodeRedis.equals(activecode)){
+			//没有激活
+			ServletActionContext.getResponse().getWriter().println("激活码无效，请登录系统，重新绑定"
+					+ "邮箱");
+		}else{
+			//激活码有效  防止重复绑定，调用CRM webService查询客户信息判断是否已经绑定
 			Customer customer = WebClient
-					.create("http://localhost:9002/crm_management/services"
-							+ "/customerService/customer/telephone/"
-							+ model.getTelephone())
-					.accept(MediaType.APPLICATION_JSON).get(Customer.class);
+			.create("http://localhost:9002/crm_management/services"
+					+ "/customerService/customer/telephone/"
+					+ model.getTelephone())
+			.accept(MediaType.APPLICATION_JSON).get(Customer.class);
+			
+			if(customer.getType() == null || customer.getType()!= 1){
+				//没有进行绑定  进行绑定操作
+				WebClient.create(
+						"http://localhost:9002/crm_management/services"
+								+ "/customerService/customer/updatetype/"
+								+ model.getTelephone()).get();
+				ServletActionContext.getResponse().getWriter().println("邮箱绑定成功！");
+			}else{
+				//已经绑定过 
+				ServletActionContext.getResponse().getWriter().println("邮箱已经绑定过，无需进行再次绑定！");
+			}
+			//删除redis的激活码
+			redisTemplate.delete(model.getTelephone());
+		}
+		return NONE;
+	}
+
+	/*
+			
 			if (customer.getType() == null || customer.getType() != 1) {
 				// 没有绑定,进行绑定
 				WebClient.create(
