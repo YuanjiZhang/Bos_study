@@ -3,10 +3,6 @@ package cn.itcast.bos.web.action;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import javax.jms.JMSException;
-import javax.jms.MapMessage;
-import javax.jms.Message;
-import javax.jms.Session;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -17,25 +13,22 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Controller;
 
 import cn.itcast.bos.utils.MailUtils;
 import cn.itcast.crm.domain.Customer;
-import cn.itcast.fore.utils.SmsUtils;
+
 
 @ParentPackage("json-default")
 @Namespace("/")
 @Controller
 @Scope("prototype")
 public class CustomerAction extends BaseAction<Customer> {
-	@Autowired
+	/*@Autowired
 	@Qualifier("jmsQueueTemplate")
-	private JmsTemplate jmsTemplate;
+	private JmsTemplate jmsTemplate;*/
 
 	@Action(value = "customer_sendSms")
 	public String sendSms() throws IOException {
@@ -129,7 +122,7 @@ public class CustomerAction extends BaseAction<Customer> {
 		this.activecode = activecode;
 	}
 
-	@Action("customer_activeMail")
+	/*@Action("customer_activeMail")
 	public String activeMail() throws IOException {
 		ServletActionContext.getResponse().setContentType(
 				"text/html;charset=utf-8");
@@ -167,6 +160,6 @@ public class CustomerAction extends BaseAction<Customer> {
 			redisTemplate.delete(model.getTelephone());
 		}
 		return NONE;
-	}
+	}*/
 
 }
