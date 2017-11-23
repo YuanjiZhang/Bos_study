@@ -270,6 +270,13 @@
 			<artifactId>javax.mail </artifactId>
 			<version>1.5.4 </version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.xbean/xbean-spring -->
+		<dependency>
+			<groupId>org.apache.xbean</groupId>
+			<artifactId>xbean-spring</artifactId>
+			<version>3.6</version>
+		</dependency>
+
 
 
 	</dependencies>

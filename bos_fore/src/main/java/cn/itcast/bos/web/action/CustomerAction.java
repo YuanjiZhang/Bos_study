@@ -3,6 +3,10 @@ package cn.itcast.bos.web.action;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import javax.jms.JMSException;
+import javax.jms.MapMessage;
+import javax.jms.Message;
+import javax.jms.Session;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -13,8 +17,11 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Controller;
 
 import cn.itcast.bos.utils.MailUtils;
@@ -26,9 +33,9 @@ import cn.itcast.crm.domain.Customer;
 @Controller
 @Scope("prototype")
 public class CustomerAction extends BaseAction<Customer> {
-	/*@Autowired
+	@Autowired
 	@Qualifier("jmsQueueTemplate")
-	private JmsTemplate jmsTemplate;*/
+	private JmsTemplate jmsTemplate;
 
 	@Action(value = "customer_sendSms")
 	public String sendSms() throws IOException {
@@ -46,14 +53,29 @@ public class CustomerAction extends BaseAction<Customer> {
 
 		//使用SMS服务发送短信验证码
 		//String result = SmsUtils.sendSmsByHTTP(model.getTelephone(), msg);
-		String result = "000xxx";
+		
+		/*String result = "000xxx";
 		if(result.startsWith("000")){
 			//发送成功
 			return NONE;
 		}else{
 			//发送失败
 			throw new RuntimeException("短信发送失败，信息码为："+result);
-		}
+		}*/
+		
+		
+		//调用MQ服务，发送一条消息
+		jmsTemplate.send("bos_sms", new MessageCreator() {
+			
+			@Override
+			public Message createMessage(Session session) throws JMSException {
+				MapMessage mapMessage = session.createMapMessage();
+				mapMessage.setString("telephone", model.getTelephone());
+				mapMessage.setString("msg", msg);
+				return mapMessage;
+			}
+		});
+		return NONE;
 		
 		// 调用MQ服务，发送一条消息
 		/*jmsTemplate.send("bos_sms", new MessageCreator() {
