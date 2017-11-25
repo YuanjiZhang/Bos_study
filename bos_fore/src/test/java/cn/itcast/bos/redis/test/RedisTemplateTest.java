@@ -8,21 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations="classpath:applicationContext.xml")
-public class RedisTemplateTest{
-
-	@Autowired
-	private RedisTemplate<String, String> redisTmeplate;
-	@Test
-	public void testRedis(){
-		//保存 key value
-		//设置30秒失效
-		redisTmeplate.opsForValue().set("city","北京", 30, TimeUnit.SECONDS);
-		System.out.println(redisTmeplate.opsForValue().get("city"));
-	}
-
-/*@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext.xml")
 public class RedisTemplateTest {
 
@@ -36,5 +23,5 @@ public class RedisTemplateTest {
 		redisTemplate.opsForValue().set("city", "北京", 30, TimeUnit.SECONDS);
 
 		System.out.println(redisTemplate.opsForValue().get("city"));
-	}*/
+	}
 }

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../js/bootstrap.min.css">
+		<script src="../js/jquery.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+		<script src=".../js/angular.min.js"></script>
+		<script src="../js/angular-route.min.js"></script>
+	</head>
+
+	<body ng-app="AppModule" ng-controller="AppController" ng-init="onSelect(1)">
+		<table class="table table-bordered">
+			<tr>
+				<th>序号</th>
+				<th>编号</th>
+				<th>商品名称</th>
+				<th>价格</th>
+			</tr>
+			<tr ng-repeat="product in products">
+				<td>{{$index+1}}</td>
+				<td>{{product.id}}</td>
+				<td>{{product.name}}</td>
+				<td>{{product.price}}</td>
+			</tr>
+		</table>
+		<ul class="pagination pull-right">
+			<li>
+				<a href>上一页</a>
+			</li>
+			<li ng-repeat="page in pages">
+				<a href ng-click="onSelect(page)">{{page}}</a>
+			</li>
+			<li>
+				<a href>下一页</a>
+			</li>
+		</ul>
+		<script>
+			angular.module("AppModule",[])
+			.controller("AppController",function($scope,$http)){
+				//每页显示条数
+				var pageCount = 10;
+				$scope.onSelect=function(page){
+					$http({
+						url:"./data/6_"+page+".json",
+						method:"get"
+					})
+					.success(function(data){
+						$scope.products=data.products;
+						
+						//计算页码，处理两个边界
+						var totalPageCount = Math.ceil(data.totalCount/pageCount);
+						var start = page -2;
+						var end = page +2;
+						if(start<1){
+							start=1;
+							end=start+4;
+						}
+						
+						if(end>totalPageCount){
+							end=totalPageCount;
+							start=end-4;
+						}
+						$scope.pages = new Array();
+						for (var i = start; i<=end ; i++) {
+							$scope.pages.push(i);
+						}
+					})
+				}
+				
+			}
+		</script>
+	</body>
+
+</html>

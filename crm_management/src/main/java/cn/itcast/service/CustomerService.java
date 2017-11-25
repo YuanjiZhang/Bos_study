@@ -49,7 +49,7 @@ public interface CustomerService {
 	public Customer findByTelephone(@PathParam("telephone") String telephone);
 	
 	//确认无误后更改用户状态
-	@GET
+	@PUT
 	@Path("/customer/updatetype/{telephone}")
 	public void updateType(@PathParam("telephone") String telephone);
 	

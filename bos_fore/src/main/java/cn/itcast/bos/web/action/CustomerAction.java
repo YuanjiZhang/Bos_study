@@ -144,6 +144,8 @@ public class CustomerAction extends BaseAction<Customer> {
 		this.activecode = activecode;
 	}
 	
+	
+	//验证邮箱的方法
 	@Action("customer_activeMail")
 	public String activeMail() throws IOException{
 		//处理向浏览器输出的乱码问题
@@ -168,7 +170,7 @@ public class CustomerAction extends BaseAction<Customer> {
 				WebClient.create(
 						"http://localhost:9002/crm_management/services"
 								+ "/customerService/customer/updatetype/"
-								+ model.getTelephone()).get();
+								+ model.getTelephone()).put(null);//更restful的方法  修改  为put传入的参数为null
 				ServletActionContext.getResponse().getWriter().println("邮箱绑定成功！");
 			}else{
 				//已经绑定过 
