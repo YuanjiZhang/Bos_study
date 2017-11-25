@@ -1,5 +1,7 @@
 package cn.itcast.bos.service.take_delivery.impl;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,6 +47,11 @@ public class PromotionServiceImpl implements PromotionService {
 	@Override
 	public Promotion findById(Integer id) {
 		return promotionRepository.findOne(id);
+	}
+
+	@Override
+	public void updateStatus(Date date) {
+		promotionRepository.updateStatus(date);
 	}
 
 }
