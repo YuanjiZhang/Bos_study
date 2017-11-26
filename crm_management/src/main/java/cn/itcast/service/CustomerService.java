@@ -53,4 +53,11 @@ public interface CustomerService {
 	@Path("/customer/updatetype/{telephone}")
 	public void updateType(@PathParam("telephone") String telephone);
 	
+	//客户登录功能——查询客户信息
+	@GET
+	@Path("/customer/login")
+	@Consumes({"application/xml","application/json"})
+	public Customer login(@QueryParam("telephone")
+	String telephone,@QueryParam("password") String password);
+	
 }

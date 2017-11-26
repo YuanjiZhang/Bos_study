@@ -37,6 +37,35 @@ public class CustomerAction extends BaseAction<Customer> {
 	@Qualifier("jmsQueueTemplate")
 	private JmsTemplate jmsTemplate;
 
+	//用户登录操作
+	@Action(value="customer_login",results={@Result(name="login",location="login.html",type="redirect"),
+			@Result(name="success",location="index.html#/myhome",type="redirect")})
+	public String longin(){
+		Customer customer = WebClient.create("http://localhost:9002/crm_management/services/customerService/customer/"
+				+ "login?telephone="+model.getTelephone()+"&password="+model.getPassword())
+		.accept(MediaType.APPLICATION_JSON)
+		.get(Customer.class);
+		   
+		/*Customer customer = WebClient.create("http://localhost:9002")
+		.path("crm_management")
+		.path("services")
+		.path("customerService")
+		.path("customer")
+		.path("login?telephone="+model.getTelephone()+"&password=" +model.getPassword())
+		.accept(MediaType.APPLICATION_JSON)
+		.get(Customer.class);
+		*/
+		//判断查询到的客户是否为空
+		if(customer == null){
+			return LOGIN;
+		}else{
+			ServletActionContext.getRequest().getSession().setAttribute("customer"
+					, customer);
+			return SUCCESS;
+		}
+		
+	}
+	
 	@Action(value = "customer_sendSms")
 	public String sendSms() throws IOException {
 		// 手机号保存在Customer对象
