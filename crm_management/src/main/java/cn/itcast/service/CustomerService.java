@@ -45,7 +45,7 @@ public interface CustomerService {
 	//通过手机号查询客户信息
 	@GET
 	@Path("customer/telephone/{telephone}")
-	@Consumes({"application/xml","application/json"})
+	@Produces({"application/xml","application/json"})
 	public Customer findByTelephone(@PathParam("telephone") String telephone);
 	
 	//确认无误后更改用户状态
@@ -59,5 +59,12 @@ public interface CustomerService {
 	@Consumes({"application/xml","application/json"})
 	public Customer login(@QueryParam("telephone")
 	String telephone,@QueryParam("password") String password);
+	
+	
+	//保存订单——获取定区编码
+	@GET
+	@Path("/customer/findFixedAreaIdByAddress/{address}")
+	@Produces({"application/xml","application/json"})
+	public String findFixedAreaIdByAddress(@PathParam("address") String address);
 	
 }

@@ -66,4 +66,7 @@
 	<import resource="applicationContext-webService.xml"/>
 	<!-- 导入定时器的配置 -->
 	<import resource="applicationContext-quartz.xml"/>
+	
+	<!-- 导入消息队列 -->
+	<import resource="applicationContext-mq.xml"/>
 </beans>

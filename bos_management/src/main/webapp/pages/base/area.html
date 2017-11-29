@@ -137,7 +137,7 @@
 					pageList: [30,50,100],
 					pagination : true,
 					toolbar : toolbar,
-					url : "../../area_findAll",
+					url : "../../area_findAll.action",
 					idField : 'id',
 					columns : columns,
 					onDblClickRow : doDblClickRow
@@ -164,7 +164,7 @@
 				});
 			    //一键上传
 				$("#button-import").upload({
-					action:'../../area_import',
+					action:'../../area_import.action',
 					onSelect : function(){
 						//选中文件后关闭自动提交
 						this.autoSubmit=false;

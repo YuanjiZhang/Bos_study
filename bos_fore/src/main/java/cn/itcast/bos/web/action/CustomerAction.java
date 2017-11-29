@@ -61,6 +61,8 @@ public class CustomerAction extends BaseAction<Customer> {
 		}else{
 			ServletActionContext.getRequest().getSession().setAttribute("customer"
 					, customer);
+			System.out.println("测试");
+			System.out.println((Customer)ServletActionContext.getRequest().getSession().getAttribute("customer")+"测试。。。");
 			return SUCCESS;
 		}
 		

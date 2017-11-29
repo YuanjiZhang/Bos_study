@@ -84,4 +84,13 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerRepository.findByTelephoneAndPassword(telephone,password);
 	}
 
+	//保存订单——获取定区编号
+	@Override
+	public String findFixedAreaIdByAddress(String address) {
+		System.out.println(address);
+		String aa=customerRepository.findFixedAreaIdByAddress(address);
+		System.out.println(aa);
+		return aa;
+	}
+
 }
