@@ -70,13 +70,18 @@ public class OrderServiceImpl implements OrderService {
 		order.setSendArea(persistArea);
 		order.setRecArea(persistRecArea);
 
-		// 自动分担逻辑，基于CRM地址库完全匹配，获取定区，匹配快递员
+		/*// 自动分担逻辑，基于CRM地址库完全匹配，获取定区，匹配快递员
 		String fixedAreaId = WebClient.create("http://localhost:9002")
 				.path("crm_management")
 				.path("services")
 				.path("customerService")
 				.path("customer")
 				.path("findFixedAreaIdByAddress/" + order.getSendAddress()).accept(MediaType.APPLICATION_JSON)
+				.get(String.class);*/
+		// 自动分担逻辑，基于CRM地址库完全匹配，获取定区，匹配快递员
+		String fixedAreaId = WebClient.create("http://localhost:9002/crm_management/"
+				+ "services/customerService/customer/findFixedAreaIdByAddress?address="+ order.getSendAddress())
+				.accept(MediaType.APPLICATION_JSON)
 				.get(String.class);
 		if (fixedAreaId != null) {
 			FixedArea fixedArea = fixedAreaRepository.findOne(fixedAreaId);
@@ -160,5 +165,12 @@ public class OrderServiceImpl implements OrderService {
 		order.setOrderType("1");
 		// 保存订单
 		orderRepository.save(order);
+	}
+
+	
+	//根据订单号查询订单数据，进行运单界面订单信息回显
+	@Override
+	public Order findByOrderNum(String orderNum) {
+		return orderRepository.findByOrderNum(orderNum);
 	}
 }

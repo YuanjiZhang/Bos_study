@@ -12,4 +12,6 @@ public interface OrderService {
 	@Path("order/add")
 	@Consumes({"application/xml","application/json"})
 	public void saveOrder(Order order);
+
+	public Order findByOrderNum(String orderNum);
 }

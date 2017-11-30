@@ -61,10 +61,15 @@ public interface CustomerService {
 	String telephone,@QueryParam("password") String password);
 	
 	
-	//保存订单——获取定区编码
+	/*//保存订单——获取定区编码
 	@GET
 	@Path("/customer/findFixedAreaIdByAddress/{address}")
 	@Produces({"application/xml","application/json"})
-	public String findFixedAreaIdByAddress(@PathParam("address") String address);
+	public String findFixedAreaIdByAddress(@PathParam("address") String address);*/
+	//保存订单——获取定区编码
+	@GET
+	@Path("/customer/findFixedAreaIdByAddress")
+	@Produces({"application/xml","application/json"})
+	public String findFixedAreaIdByAddress(@QueryParam("address") String address);
 	
 }
