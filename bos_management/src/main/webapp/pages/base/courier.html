@@ -58,7 +58,7 @@
 					var ids = array.join(",");
 
 					//将字符串发送到后端
-					window.location.href = "../../base/courier_action/del?ids=" + ids;
+					window.location.href = "../../base/courier_action.action/del?ids=" + ids;
 				}
 			}
 
@@ -76,7 +76,7 @@
 					var ids = array.join(",");
 
 					//将字符串发送回后端
-					window.location.href = "../../base/courier_action/fix?ids=" + ids;
+					window.location.href = "../../base/courier_action.action/fix?ids=" + ids;
 				}
 			}
 			//工具栏
@@ -227,7 +227,7 @@
 					pageList: [30, 50, 100],
 					pagination: true,
 					toolbar: toolbar,
-					url: "../../base/courier_action/findAll",
+					url: "../../base/courier_action/findAll.action",
 					idField: 'id',
 					columns: columns,
 					onDblClickRow: doDblClickRow
@@ -274,7 +274,7 @@
 			</div>
 
 			<div region="center" style="overflow:auto;padding:5px;" border="false">
-				<form id="courierFrom" action="../../base/courier_action/save" method="post">
+				<form id="courierFrom" action="../../base/courier_action/save.action" method="post">
 					<table class="table-edit" width="80%" align="center">
 						<!-- 提供隐藏ID，便于查询信息 -->
 						<input type="hidden" name="id" />
@@ -319,7 +319,7 @@
 							<td>取派标准</td>
 							<td>
 								<input type="text" name="standard.id" id="cc" class="easyui-combobox" data-options="required:true,valueField:'id',textField:'name',
-											url:'../../base/standard_action/findAllStandards'" />
+											url:'../../base/standard_action/findAllStandards.action'" />
 
 							</td>
 						</tr>

@@ -69,4 +69,8 @@
 	
 	<!-- 导入消息队列 -->
 	<import resource="applicationContext-mq.xml"/>
+	
+	<!-- elaticsearch -->
+	<import resource="applicationContext-elasticsearch.xml"/>
+	
 </beans>
