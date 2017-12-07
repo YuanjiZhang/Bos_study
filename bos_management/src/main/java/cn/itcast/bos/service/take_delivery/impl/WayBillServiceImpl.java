@@ -43,11 +43,19 @@ public class WayBillServiceImpl implements WayBillService {
 		}else{
 			//运单存在
 			try {
-				Integer id = persistWayBill.getId();
-				BeanUtils.copyProperties(persistWayBill, wayBill);
-				persistWayBill.setId(id);
-				//保存索引
-				wayBillIndexRepository.save(persistWayBill);
+				//判断运单状态是否为待发货
+				if(wayBill.getSignStatus() == 1){
+					Integer id = persistWayBill.getId();
+					BeanUtils.copyProperties(persistWayBill, wayBill);
+					persistWayBill.setId(id);
+					//保存索引
+					wayBillIndexRepository.save(persistWayBill);
+				}else{
+					//运单状态 已经在运输中， 不能进行修改
+					throw new RuntimeException("运单已经发出，无法进行修改保存");
+				}
+				
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new RuntimeException(e.getMessage());

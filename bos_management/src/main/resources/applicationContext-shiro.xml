@@ -41,7 +41,15 @@
 	<!-- 安全管理器 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="bosRealm"></property>
+		<property name="cacheManager" ref="shiroCacheManager" />
 	</bean>
+	
+	<!-- 配置Realm -->
+	<bean id="bosRealm" class="cn.itcast.bos.realm.BosRealm">
+		<!-- 缓存去的名字 就是 ehcache.xml 自定义 cache的name -->
+		<property name="authorizationCacheName" value="bos"></property>
+	</bean>
+	
 	<!-- 后处理器 -->
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 	

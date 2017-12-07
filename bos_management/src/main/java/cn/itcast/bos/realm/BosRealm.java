@@ -24,7 +24,7 @@ import cn.itcast.bos.service.system.RoleService;
 import cn.itcast.bos.service.system.UserService;
 
 //自定义Realm 实现安全数据连接
-@Service("bosRealm")
+//@Service("bosRealm")
 public class BosRealm extends AuthorizingRealm{
 
 	@Autowired
