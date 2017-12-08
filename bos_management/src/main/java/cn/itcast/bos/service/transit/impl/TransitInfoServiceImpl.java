@@ -13,6 +13,7 @@ import cn.itcast.bos.dao.take_delivery.WayBillRepository;
 import cn.itcast.bos.dao.transit.TransitInfoRepository;
 import cn.itcast.bos.domain.take_delivery.WayBill;
 import cn.itcast.bos.domain.transit.TransitInfo;
+import cn.itcast.bos.index.WayBillIndexRepository;
 import cn.itcast.bos.service.transit.TransitInfoService;
 @Service
 @Transactional
@@ -22,6 +23,9 @@ public class TransitInfoServiceImpl implements TransitInfoService {
 	private TransitInfoRepository transitInfoRepository;
 	@Autowired
 	private WayBillRepository wayBillRepository;
+	@Autowired
+	private WayBillIndexRepository wayBillIndexRepository;
+	
 	
 	@Override
 	public void createTransits(String wayBillIds) {
@@ -40,6 +44,9 @@ public class TransitInfoServiceImpl implements TransitInfoService {
 					
 					//更改运单状态  2:派送中
 					wayBill.setSignStatus(2);
+					
+					//同步索引库
+					wayBillRepository.save(wayBill);
 				}
 			}
 		}

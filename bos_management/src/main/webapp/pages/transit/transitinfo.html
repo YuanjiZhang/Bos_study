@@ -79,14 +79,71 @@
 					text: '开始配送',
 					iconCls: 'icon-print',
 					handler: function() {
-						$("#deliveryWindow").window('open');
+						//判断是否选中一条记录
+						var row = $("#transitGrid").datagrid('getSelected');
+						if(row == null){
+							//没有选中记录
+							$.messager.alert('Warning','选中一条记录啊！','warning');
+							return;
+						}
+						
+						//判断运输状态是否为 “到达网点”
+						if(row.status == "到达网点"){
+							//在表单隐藏域中 保存， 当前操作中转信息
+							$("#deliveryId").val(row.id);
+							
+							//回显运输配送信息
+							$("#deliveryTransitInfoView").append("运单号："+row.wayBill.wayBillNum+"<br/>");
+							$("#deliveryTransitInfoView").append("货物类型："+row.wayBill.goodsType+"<br/>");
+							$("#deliveryTransitInfoView").append("发货地："+row.wayBill.sendAddress+"<br/>");
+							$("#deliveryTransitInfoView").append("收货地："+row.wayBill.recAddress+"<br/>");
+							$("#deliveryTransitInfoView").append("物流信息："+row.transferInfo+"<br/>");
+							
+							//弹出窗口
+							
+							$("#deliveryWindow").window('open');
+						}else{
+							$.messager.alert('警告','开始配送工作，必须运单到达网点','warning');
+							return;
+						}
+						
+						
+						
 					}
 				}, {
 					id: 'button-sign',
 					text: '签收录入',
 					iconCls: 'icon-save',
 					handler: function() {
-						$("#signWindow").window('open');
+						//判断是否选中一条记录
+						var row = $("#transitGrid").datagrid('getSelected');
+						if(row == null){
+							//没有选中运输记录
+							$.messager.alert('警告','先选中一条记录再说！','warning');
+							return;
+						}
+						
+						//判断运输状态，是否为开始配总
+						if(row.status == "开始配送"){
+							//在表单中隐藏域进行保存，当前操作中转信息
+							$("#signId").val(row.id);
+							
+							//回显运输配送信息
+							$("#signTransitInfoView").append("运单号："+row.wayBill.wayBillNum+"<br/>");
+							$("#signTransitInfoView").append("货物类型："+row.wayBill.goodsType+"<br/>");
+							$("#signTransitInfoView").append("发货地："+row.wayBill.sendAddress+"<br/>");
+							$("#signTransitInfoView").append("收货地："+row.wayBill.recAddress+"<br/>");
+							$("#signTransitInfoView").append("物流信息："+row.transferInfo+"<br/>");
+							
+							//弹出窗口
+							$("#signWindow").window('open');
+						}else{
+							$.messager.alert('警告','签收记录操作只能针对开始配送状态的运单','warning');
+							return;
+						}
+						
+						
+						
 					}
 				}, {
 					id: 'button-transit',
@@ -213,6 +270,34 @@
 					toolbar: transitToolbar,
 					columns: transitColumns
 				});
+				
+				
+				//出入库保存按钮  点击事件
+				$("#inoutStoreSave").click(function(){
+					if($("#inoutStoreForm").form('validate')){
+						$("#inoutStoreForm").submit();
+					}else{
+						$.messager.alert('Warning','先完善表单数据！','warning');
+					}
+				});
+				
+				//开始配送 保存 点击事件
+				$("#deliverySave").click(function(){
+					if($("#deliveryForm").form('validate')){
+						$("#deliveryForm").submit();
+					}else{
+						$.messager.alert('Warning','先完善表单数据！','warning');
+					}
+				});
+				
+				//签收录入 保存按钮 提供绑定事件
+				$("#signSave").click(function(){
+					if($("#signForm").form('validate')){
+						$("#signForm").submit();
+					}else{
+						$.messager.alert('Warning','先完善表单数据！','warning');
+					}
+				});
 
 			});
 		</script>
@@ -231,7 +316,7 @@
 				</div>
 			</div>
 			<div region="center" style="overflow:auto;padding:5px;" border="false">
-				<form id="inoutStoreForm" method="post" action="">
+				<form id="inoutStoreForm" method="post" action="../../inoutstore_save.action">
 					<table class="table-edit" width="80%" align="center">
 						<tr class="title">
 							<td colspan="2">入库操作</td>
@@ -239,7 +324,7 @@
 						<tr>
 							<td>运单信息</td>
 							<td>
-								<input type="hidden" name="id" id="inOutStoreId" />
+								<input type="hidden" name="transitInfoId" id="inOutStoreId" />
 								<span id="inOutStoreTransitInfoView"></span>
 						</tr>
 						<tr>
@@ -255,7 +340,7 @@
 						<tr>
 							<td>仓库或网点地址</td>
 							<td>
-								<input type="text" name="address" size="40" />
+								<input type="text" name="address" size="40" class="easyui-validatebox" required="true" />
 							</td>
 						</tr>
 						<tr>
@@ -276,7 +361,7 @@
 				</div>
 			</div>
 			<div region="center" style="overflow:auto;padding:5px;" border="false">
-				<form id="deliveryForm" method="post" action="">
+				<form id="deliveryForm" method="post" action="../../delivery_save.action">
 					<table class="table-edit" width="80%" align="center">
 						<tr class="title">
 							<td colspan="2">开始配送</td>
@@ -284,8 +369,8 @@
 						<tr>
 							<td>运单信息</td>
 							<td>
-								<input type="hidden" name="id" id="deliveryId" />
-								<span id="transitInfoView"></span>
+								<input type="hidden" name="transitInfoId" id="deliveryId" />
+								<span id="deliveryTransitInfoView"></span>
 						</tr>
 						<tr>
 							<td>快递员工号</td>
@@ -317,7 +402,7 @@
 				</div>
 			</div>
 			<div region="center" style="overflow:auto;padding:5px;" border="false">
-				<form id="signForm" method="post" action="">
+				<form id="signForm" method="post" action="../../sign_save.action">
 					<table class="table-edit" width="80%" align="center">
 						<tr class="title">
 							<td colspan="2">签收录入</td>
@@ -325,8 +410,8 @@
 						<tr>
 							<td>运单信息</td>
 							<td>
-								<input type="hidden" name="id" id="deliveryId" />
-								<span id="transitInfoView"></span>
+								<input type="hidden" name="transitInfoId" id="signId" />
+								<span id="signTransitInfoView"></span>
 						</tr>
 						<tr>
 							<td>签收人</td>
