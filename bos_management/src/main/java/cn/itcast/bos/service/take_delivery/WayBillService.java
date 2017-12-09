@@ -1,5 +1,7 @@
 package cn.itcast.bos.service.take_delivery;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,5 +14,7 @@ public interface WayBillService {
 	Page<WayBill> findAll(WayBill wayBill, Pageable pageable);
 
 	WayBill findByWayBillNum(String wayBillNum);
+
+	List<WayBill> findWayBills(WayBill model);
 
 }
